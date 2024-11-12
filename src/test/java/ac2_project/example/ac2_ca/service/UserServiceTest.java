@@ -4,6 +4,8 @@ import ac2_project.example.ac2_ca.dto.UserDTO;
 import ac2_project.example.ac2_ca.entity.User;
 import ac2_project.example.ac2_ca.entity.User_Email;
 import ac2_project.example.ac2_ca.repository.User_Repository;
+import ac2_project.example.ac2_ca.service.UserService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
