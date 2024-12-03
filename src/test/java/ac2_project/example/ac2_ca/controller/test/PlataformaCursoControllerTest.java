@@ -65,7 +65,7 @@ public class PlataformaCursoControllerTest {
     }
 
     @Test
-    public void testVerificarGanhadorCurso() throws Exception {
+    public void testVerificarGanhadorCursoSemVencedor() throws Exception {
         Topico topico1 = new Topico();
         topico1.setAluno("Aluno1");
         topico1.setDescricao("Tópico 1");
@@ -100,5 +100,39 @@ public class PlataformaCursoControllerTest {
         mockMvc.perform(get("/api/curso/verificarGanhadorCurso"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Nenhum aluno conseguiu ser o mais ativo em ambas as categorias."));
+    }
+
+    @Test
+    public void testVerificarGanhadorCursoComVencedor() throws Exception {
+        Topico topico1 = new Topico();
+        topico1.setAluno("Aluno1");
+        topico1.setDescricao("Tópico 1");
+
+        Topico topico2 = new Topico();
+        topico2.setAluno("Aluno1");
+        topico2.setDescricao("Tópico 2");
+
+        Topico topico3 = new Topico();
+        topico3.setAluno("Aluno2");
+        topico3.setDescricao("Tópico 3");
+
+        Comentario comentario1 = new Comentario();
+        comentario1.setAluno("Aluno1");
+        comentario1.setConteudo("Comentário 1");
+
+        Comentario comentario2 = new Comentario();
+        comentario2.setAluno("Aluno1");
+        comentario2.setConteudo("Comentário 2");
+
+        Comentario comentario3 = new Comentario();
+        comentario3.setAluno("Aluno2");
+        comentario3.setConteudo("Comentário 3");
+
+        Mockito.when(topicoService.getAllTopicos()).thenReturn(List.of(topico1, topico2, topico3));
+        Mockito.when(comentarioService.getAllComentarios()).thenReturn(List.of(comentario1, comentario2, comentario3));
+
+        mockMvc.perform(get("/api/curso/verificarGanhadorCurso"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Aluno1 escreveu mais tópicos e ajudou mais com comentários, e por isso ganha um curso no final do mês!"));
     }
 }
