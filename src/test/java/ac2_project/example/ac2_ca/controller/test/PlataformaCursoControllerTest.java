@@ -135,4 +135,14 @@ public class PlataformaCursoControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().string("Aluno1 escreveu mais tópicos e ajudou mais com comentários, e por isso ganha um curso no final do mês!"));
     }
+
+    @Test
+    public void testVerificarGanhadorCursoSemDados() throws Exception {
+        Mockito.when(topicoService.getAllTopicos()).thenReturn(List.of());
+        Mockito.when(comentarioService.getAllComentarios()).thenReturn(List.of());
+
+        mockMvc.perform(get("/api/curso/verificarGanhadorCurso"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Nenhum aluno conseguiu ser o mais ativo em ambas as categorias."));
+}
 }
